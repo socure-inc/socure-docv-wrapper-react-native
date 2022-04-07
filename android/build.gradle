@@ -1,0 +1,193 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.dcendents.android-maven'
+// apply plugin: 'com.google.gms.google-services'
+group = "com.github.socure-inc"
+
+buildscript {
+  // Buildscript is evaluated before everything else so we can't use getExtOrDefault
+  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['RnSocureSdk_kotlinVersion']
+
+  repositories {
+    google()
+    mavenCentral()
+    maven {
+      url 'https://jitpack.io'
+      credentials { username authToken }
+    }
+  }
+
+  dependencies {
+    classpath 'com.google.gms:google-services:4.3.10'
+    classpath 'com.android.tools.build:gradle:4.2.2'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+    // noinspection DifferentKotlinGradleVersion
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+  }
+}
+
+
+def getExtOrDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['RnSocureSdk_' + name]
+}
+
+def getExtOrIntegerDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['RnSocureSdk_' + name]).toInteger()
+}
+
+android {
+
+  compileSdkVersion 29
+  buildToolsVersion "29.0.2"
+  defaultConfig {
+    minSdkVersion 22
+    targetSdkVersion 29
+    versionCode 110
+    versionName "1.1.0"
+    multiDexEnabled true
+  }
+
+  buildTypes {
+    debug {
+      minifyEnabled false
+    }
+    release {
+      minifyEnabled false
+    }
+  }
+  lintOptions {
+    disable 'GradleCompatible'
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  viewBinding {
+    enabled = true
+  }
+
+  dataBinding {
+    enabled = true
+  }
+
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
+
+  sourceSets {
+    main {
+      jniLibs.srcDirs = ['native/libs']
+    }
+  }
+
+  configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        println "${details.requested.group}:${details.requested.version}"
+    }
+  }
+
+}
+
+repositories {
+    mavenCentral()
+    google()
+    maven { url 'https://jitpack.io' }
+    def isJitpack = projectDir.absolutePath.indexOf('jitpack') > -1
+    def parentDir = isJitpack ? rootProject.projectDir : projectDir
+    def androidSrcPath = ""
+    def androidPreBuildPath = ""
+    if (isJitpack) {
+      //   androidSrcPath = "build/react_modules/react-native"
+      //   androidPreBuildPath = "build/react_modules/react-native/android"
+      println "Creating gradle.properties"
+      def gProperties = new File(projectDir, 'gradle.properties')
+      gProperties.append("android.useAndroidX=true\n")
+      gProperties.append("android.enableJetifier=true\n")
+      gProperties.append("kapt.incremental.apt=false\n")
+    } else {
+      def found = false
+      def defaultDir = null
+      def androidSourcesName = 'React Native sources'
+
+      if (rootProject.ext.has('reactNativeAndroidRoot')) {
+        defaultDir = rootProject.ext.get('reactNativeAndroidRoot')
+      } else {
+        defaultDir = new File(
+            projectDir,
+            '/../../../react_modules/react-native/android'
+        )
+      }
+
+      if (defaultDir.exists()) {
+        maven {
+          url defaultDir.toString()
+          name androidSourcesName
+        }
+
+        logger.info(":${project.name}:reactNativeAndroidRoot ${defaultDir.canonicalPath}")
+        found = true
+      } else {
+        androidSrcPath = "node_modules/react-native"
+        androidPreBuildPath = "node_modules/react-native/android"
+
+        1.upto(5, {
+          if (found) return true
+          println "droid ${parentDir.parentFile}"
+          if(parentDir.parentFile) {
+            parentDir = parentDir.parentFile
+
+            def androidSourcesDir = new File(
+                parentDir,
+                androidSrcPath
+            )
+
+            def androidPrebuiltBinaryDir = new File(
+                parentDir,
+                androidPreBuildPath
+            )
+
+            if (androidPrebuiltBinaryDir.exists()) {
+              maven {
+                url androidPrebuiltBinaryDir.toString()
+                name androidSourcesName
+              }
+
+              logger.info(":${project.name}:reactNativeAndroidRoot ${androidPrebuiltBinaryDir.canonicalPath}")
+              found = true
+            } else if (androidSourcesDir.exists()) {
+              maven {
+                url androidSourcesDir.toString()
+                name androidSourcesName
+              }
+
+              logger.info(":${project.name}:reactNativeAndroidRoot ${androidSourcesDir.canonicalPath}")
+              found = true
+            }
+          }
+        })
+      }
+
+      if (!found) {
+        throw new GradleException(
+            "${project.name}: unable to locate React Native android sources. " +
+                "Ensure you have you installed React Native as a dependency in your project and try again."
+        )
+      }
+    }
+}
+
+def kotlin_version = getExtOrDefault('kotlinVersion')
+
+dependencies {
+//  implementation fileTree(dir: "libs", include: ["*.aar"])
+  api 'com.github.socure-inc:android-sdk:2.0.11'
+
+  api 'com.facebook.react:react-native:0.66.0'
+  api 'com.facebook.infer.annotation:infer-annotation:0.11.2'
+  api 'javax.inject:javax.inject:1'
+}
+
+//apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

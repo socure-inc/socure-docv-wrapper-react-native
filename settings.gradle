@@ -1,0 +1,2 @@
+include ':app', ':android'
+rootProject.name = "socure-docv-wrapper-react-native"
