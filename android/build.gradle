@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.github.dcendents.android-maven'
+// apply plugin: 'com.github.dcendents.android-maven'
 // apply plugin: 'com.google.gms.google-services'
 group = "com.github.socure-inc"
 
@@ -185,7 +185,7 @@ dependencies {
 //  implementation fileTree(dir: "libs", include: ["*.aar"])
   api 'com.github.socure-inc:android-sdk:2.0.11'
 
-  api 'com.facebook.react:react-native:0.66.0'
+  api 'com.facebook.react:react-native:0.66.+'
   api 'com.facebook.infer.annotation:infer-annotation:0.11.2'
   api 'javax.inject:javax.inject:1'
 }
