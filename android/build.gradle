@@ -2,50 +2,34 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.github.dcendents.android-maven'
-// apply plugin: 'com.google.gms.google-services'
 group = "com.github.socure-inc"
 
 buildscript {
-  // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['RnSocureSdk_kotlinVersion']
-
   repositories {
     google()
     mavenCentral()
     maven {
       url 'https://jitpack.io'
-      credentials { username authToken }
     }
   }
 
   dependencies {
     classpath 'com.google.gms:google-services:4.3.10'
-    classpath 'com.android.tools.build:gradle:4.2.2'
+    classpath 'com.android.tools.build:gradle:7.1.1'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     // noinspection DifferentKotlinGradleVersion
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
   }
 }
 
-
-def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['RnSocureSdk_' + name]
-}
-
-def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['RnSocureSdk_' + name]).toInteger()
-}
-
 android {
+  compileSdkVersion 32
 
-  compileSdkVersion 29
-  buildToolsVersion "29.0.2"
   defaultConfig {
     minSdkVersion 22
-    targetSdkVersion 29
-    versionCode 110
-    versionName "1.1.0"
+    targetSdkVersion 32
+    versionCode 120
+    versionName "1.2.0"
     multiDexEnabled true
   }
 
@@ -66,10 +50,6 @@ android {
   }
 
   viewBinding {
-    enabled = true
-  }
-
-  dataBinding {
     enabled = true
   }
 
@@ -179,15 +159,9 @@ repositories {
     }
 }
 
-def kotlin_version = getExtOrDefault('kotlinVersion')
-
 dependencies {
-//  implementation fileTree(dir: "libs", include: ["*.aar"])
-  api 'com.github.socure-inc:android-sdk:2.0.11'
-
-  api 'com.facebook.react:react-native:0.66.0'
+  api 'com.github.socure-inc:android-sdk:2.0.12'
+  api 'com.facebook.react:react-native:0.66.+'
   api 'com.facebook.infer.annotation:infer-annotation:0.11.2'
   api 'javax.inject:javax.inject:1'
 }
-
-//apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
