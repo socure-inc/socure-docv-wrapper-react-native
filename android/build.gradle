@@ -28,8 +28,8 @@ android {
   defaultConfig {
     minSdkVersion 22
     targetSdkVersion 32
-    versionCode 130
-    versionName "1.3.0"
+    versionCode 140
+    versionName "1.4.0"
     multiDexEnabled true
   }
 
@@ -160,7 +160,7 @@ repositories {
 }
 
 dependencies {
-  api 'com.github.socure-inc:android-sdk:1pNXj.oBpG6.JcD1x.cntUH'
+  api 'com.github.socure-inc:android-sdk:snjdns.2014.dnasdn.kasl.pre-rel.0'
   api 'com.facebook.react:react-native:0.66.+'
   api 'com.facebook.infer.annotation:infer-annotation:0.11.2'
   api 'javax.inject:javax.inject:1'
