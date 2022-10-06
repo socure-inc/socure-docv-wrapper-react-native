@@ -44,8 +44,8 @@ class LicenseScannerModule(private val context: ReactApplicationContext): Scanne
     promise?.resolve(response)
   }
 
-  override fun onError(requestCode: Int) {
-    promise?.reject(Throwable("error"))
+  override fun onError(requestCode: Int, message: String) {
+    promise?.reject(Throwable(message))
   }
 
   override fun getNormalImageResponse(promise: Promise) {
