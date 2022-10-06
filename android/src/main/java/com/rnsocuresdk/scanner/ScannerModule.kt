@@ -50,16 +50,18 @@ abstract class ScannerModule(private val context: ReactApplicationContext): Base
 
 
   override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
-    Log.d("[SOCURE]", "onActivityResult $requestCode")
+      Log.d("[SOCURE]", "onActivityResult $requestCode")
 
-    if(requestCode == scanRequestCode) {
-      println("ON ACTIVITY RESULT MODULE $scanRequestCode")
-      when (resultCode) {
-        Activity.RESULT_OK -> onSuccess(requestCode)
-        Activity.RESULT_CANCELED -> onError(requestCode, "DOC_SCAN_CANCELLED")
-        else -> onError(requestCode, "DOC_SCAN_ERROR")
-      }
-    Log.d("[SOCURE]", "onActivityResult FINSHED")
-    context.removeActivityEventListener(this)
+      if(requestCode == scanRequestCode) {
+        println("ON ACTIVITY RESULT MODULE $scanRequestCode")
+        when (resultCode) {
+          Activity.RESULT_OK -> onSuccess(requestCode)
+          Activity.RESULT_CANCELED -> onError(requestCode, "DOC_SCAN_CANCELLED")
+          else -> onError(requestCode, "DOC_SCAN_ERROR")
+        }
+      Log.d("[SOCURE]", "onActivityResult FINSHED")
+      context.removeActivityEventListener(this)
+    }
   }
+
 }
