@@ -383,9 +383,15 @@ extension RnSocureSdk:ImageCallback {
     }
   }
   
-  func onScanCancelled() {
+   func onScanCancelled() {
     referenceViewController?.dismiss(animated: true, completion: {
         self.referenceViewController = nil
+        self.docScanReject?("DOC_SCAN_CANCELLED", nil, nil)
+        self.selfieCaptureReject?("DOC_SCAN_CANCELLED", nil, nil)
+        self.docScanReject = nil
+        self.docScanResolve = nil
+        self.selfieCaptureReject = nil
+        self.selfieCaptureResolve = nil
     })
   }
   
