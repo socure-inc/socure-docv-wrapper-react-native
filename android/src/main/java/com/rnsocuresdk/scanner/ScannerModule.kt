@@ -59,9 +59,10 @@ abstract class ScannerModule(private val context: ReactApplicationContext): Base
           Activity.RESULT_CANCELED -> onError(requestCode, "DOC_SCAN_CANCELLED")
           else -> onError(requestCode, "DOC_SCAN_ERROR")
         }
+      }
+
       Log.d("[SOCURE]", "onActivityResult FINSHED")
       context.removeActivityEventListener(this)
-    }
   }
 
 }
