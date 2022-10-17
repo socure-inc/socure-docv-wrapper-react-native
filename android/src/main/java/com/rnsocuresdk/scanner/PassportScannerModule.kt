@@ -43,9 +43,8 @@ class PassportScannerModule(private val context: ReactApplicationContext): Scann
     promise?.resolve(response)
   }
 
-  override fun onError(requestCode: Int) {
-    Log.d("[SOCURE]", "onError")
-    promise?.reject(Throwable("error"))
+ override fun onError(requestCode: Int, message: String) {
+    promise?.reject(Throwable(message))
   }
 
   override fun getNormalImageResponse(promise: Promise) {
