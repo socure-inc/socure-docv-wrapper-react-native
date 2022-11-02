@@ -43,7 +43,7 @@
   "homepage": "https://github.com/socure-inc/android-sdk#readme",
   "peerDependencies": {
     "react": ">=16.13.1",
-    "react-native": ">=0.66.0"
+    "react-native": ">=0.68.2"
   },
   "jest": {
     "preset": "react-native",
