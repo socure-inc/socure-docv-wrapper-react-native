@@ -31,7 +31,7 @@
   ],
   "repository": "https://github.com/socure-inc/android-sdk",
   "author": "Socure <deepanker@socure.com> (https://github.com/socure-inc/android-sdk)",
-  "license": "Private",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/socure-inc/android-sdk/issues"
   },
