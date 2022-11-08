@@ -25,6 +25,8 @@ class InformationUploadModule(private val context: ReactApplicationContext) : In
     Socure.getSuccessfulResult()?.let { documentResult ->
       val selfieResult = Socure.getSelfieResult()
       startUpload(uploader, documentResult, selfieResult)
+    } ?: run {
+      promise.reject(Throwable("Nothing to upload!"))
     }
   }
 /*
