@@ -20,6 +20,9 @@ const Socure = {
   getScannedPassport: () => {
     return RnSocureSdk.getScannedPassport();
   },
+  setPublicKey: () => {
+    return RnSocureSdk.setPublicKey();
+  }
 };
 
 export default Socure;
