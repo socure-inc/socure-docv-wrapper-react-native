@@ -49,12 +49,7 @@ class InformationUploadModule(private val context: ReactApplicationContext) : In
     }
   }
 */
-  private fun buildImageUploader(): ImageUploader {
-    val socureKey = context.getString(R.string.socurePublicKey)
-    val uploader = ImageUploader(context, socureKey)
-    uploader.imageUploader(context)
-    return uploader
-  }
+  private fun buildImageUploader(): ImageUploader = ImageUploader(context)
 
   private fun startUpload(uploader: ImageUploader, docResult: ScanResult, selfieResult: SelfieScanResult?) {
     if (docResult.documentType == ScanResult.DocumentType.PASSPORT) {
