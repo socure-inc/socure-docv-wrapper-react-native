@@ -58,25 +58,16 @@ class InformationUploadModule(private val context: ReactApplicationContext) : In
 
   private fun startUpload(uploader: ImageUploader, docResult: ScanResult, selfieResult: SelfieScanResult?) {
     if (docResult.documentType == ScanResult.DocumentType.PASSPORT) {
-      if (selfieResult?.imageData != null) {
-        uploader.uploadPassport(
-            this,
-            docResult.passportImage,
-            selfieResult.imageData
-        )
-      } else {
-        uploader.uploadPassport(this, docResult.passportImage)
+      docResult.passportImage?.let { 
+        uploader.uploadPassport(this, it, selfieResult?.imageData)
+      } ?: run {
+        promise?.reject(Throwable("Passport image can not be empty!"))
       }
     } else {
-      if (selfieResult?.imageData != null) {
-        uploader.uploadLicense(
-            this,
-            docResult.licenseFrontImage,
-            docResult.licenseBackImage,
-            selfieResult.imageData
-        )
-      } else {
-        uploader.uploadLicense(this, docResult.licenseFrontImage, docResult.licenseBackImage)
+      docResult.licenseFrontImage?.let { 
+        uploader.uploadLicense(this, it, docResult.licenseBackImage, selfieResult?.imageData)
+      } ?: run {
+        promise?.reject(Throwable("ID Front image can not be empty!"))
       }
     }
   }
