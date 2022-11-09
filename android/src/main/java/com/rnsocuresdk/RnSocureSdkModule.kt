@@ -47,12 +47,17 @@ class RnSocureSdkModule(reactContext: ReactApplicationContext) : ReactContextBas
     }
 
     @ReactMethod
+    fun getCapturedSelfie(promise: Promise) {
+      selfieModule.getNormalImageResponse(promise)
+    }
+
+    @ReactMethod
     fun uploadScannedInfo(promise: Promise) {
         uploadDocument.upload(promise)
     }
 
     @ReactMethod
-    fun setPublicKey(publicKey: String) {
+    fun setSocureSdkKey(publicKey: String) {
         SDKAppDataPublic.setSocureSdkKey(publicKey)
     }
 /*

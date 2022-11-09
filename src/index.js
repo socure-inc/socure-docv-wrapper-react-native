@@ -20,9 +20,12 @@ const Socure = {
   getScannedPassport: () => {
     return RnSocureSdk.getScannedPassport();
   },
-  setPublicKey: (publicKey) => {
+  getCapturedSelfie: () => {
+    return RnSocureSdk.getCapturedSelfie();
+  },
+  setSocureSdkKey: (publicKey) => {
     if (publicKey && typeof publicKey === 'string' && publicKey.trim().length > 0){
-      RnSocureSdk.setPublicKey(publicKey);
+      RnSocureSdk.setSocureSdkKey(publicKey);
     } else {
       throw "Invalid public key."
     }

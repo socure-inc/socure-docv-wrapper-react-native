@@ -34,6 +34,19 @@ class SelfieScannerModule(private val context: ReactApplicationContext): Scanner
   }
 
   override fun getNormalImageResponse(promise: Promise) {
-    promise.reject(Throwable("Not implemented"))
+    val licenseResult = SDKAppDataPublic.successfulScanningResult
+      val response: WritableMap = Arguments.createMap()
+
+      try {
+          licenseResult?.selfieImage?.let { image ->
+              response.putString("selfie", Base64.encodeToString(image, Base64.DEFAULT))
+          }
+
+          response.putString("type", "normal_selfie_image")
+
+          promise.resolve(response)
+      } catch (error: Exception) {
+          promise.reject(error)
+      }
   }
 }
