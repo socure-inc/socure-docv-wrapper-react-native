@@ -288,6 +288,11 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
       reject("IMAGE_NOT_FOUND", "Error getting image data", nil)
     }
   }
+   
+    @objc(setSocureSdkKey:)
+  func setSocureSdkKey(_ publicKey: String) {
+      SDKAppDataPublic.setSocureSdkKey(publicKey)
+  }
 
   // TODO: Move to util
   func saveImage(imageData: Data, name: String) throws -> URL {

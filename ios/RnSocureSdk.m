@@ -27,5 +27,6 @@ RCT_EXTERN_METHOD(
 RCT_EXTERN_METHOD(getScannedLicense: (RCTPromiseResolveBlock *)resolve rejecter: (RCTPromiseRejectBlock *)reject)
 RCT_EXTERN_METHOD(getScannedPassport: (RCTPromiseResolveBlock *)resolve rejecter: (RCTPromiseRejectBlock *)reject)
 RCT_EXTERN_METHOD(uploadScannedInfo: (RCTPromiseResolveBlock *)resolve rejecter: (RCTPromiseRejectBlock *)reject)
+RCT_EXTERN_METHOD(setSocureSdkKey:(NSString)name)
 
 @end
