@@ -392,7 +392,7 @@ extension RnSocureSdk:ImageCallback {
     referenceViewController?.dismiss(animated: true, completion: {
         self.referenceViewController = nil
         self.docScanReject?("DOC_SCAN_CANCELLED", "DOC_SCAN_CANCELLED", nil)
-        self.selfieCaptureReject?("DOC_SCAN_CANCELLED", "DOC_SCAN_CANCELLED", nil)
+        self.selfieCaptureReject?("SELFIE_SCAN_CANCELLED", "SELFIE_SCAN_CANCELLED", nil)
         self.docScanReject = nil
         self.docScanResolve = nil
         self.selfieCaptureReject = nil
@@ -441,6 +441,7 @@ extension RnSocureSdk:ImageCallback {
     
   func onError(errorType: SocureSDKErrorType, errorMessage: String) {
     self.docScanReject?("DOC_SCAN_ERROR", errorMessage, nil)
+    self.selfieCaptureReject?("SELFIE_SCAN_ERROR", errorMessage, nil)
     self.referenceViewController?.dismiss(animated: true, completion: nil)
   }
 }
