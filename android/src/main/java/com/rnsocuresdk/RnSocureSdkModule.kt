@@ -47,11 +47,6 @@ class RnSocureSdkModule(reactContext: ReactApplicationContext) : ReactContextBas
     }
 
     @ReactMethod
-    fun getCapturedSelfie(promise: Promise) {
-      selfieModule.getNormalImageResponse(promise)
-    }
-
-    @ReactMethod
     fun uploadScannedInfo(promise: Promise) {
         uploadDocument.upload(promise)
     }
