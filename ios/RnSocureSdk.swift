@@ -381,6 +381,7 @@ extension RnSocureSdk:ImageCallback {
         self.selfieImageUrl = url.path
         self.selfieResult = selfieScanResult
         self.selfieCaptureResolve?(url.path)
+        self.selfieCaptureReject = nil
         referenceViewController?.dismiss(animated: true, completion: nil)
       } catch {
         self.onError(errorType: SocureSDKErrorType.Error, errorMessage: "Failed to save image data")
