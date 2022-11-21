@@ -55,7 +55,13 @@ abstract class ScannerModule(private val context: ReactApplicationContext): Base
       if(requestCode == scanRequestCode) {
         println("ON ACTIVITY RESULT MODULE $scanRequestCode")
         when (resultCode) {
-          Activity.RESULT_OK -> onSuccess(requestCode)
+          Activity.RESULT_OK -> {
+            data?.getStringExtra("error")?.let {
+              onError(requestCode, it)
+            } ?: run {
+              onSuccess(requestCode)
+            }
+          }
           Activity.RESULT_CANCELED -> onError(requestCode, "DOC_SCAN_CANCELLED")
           else -> onError(requestCode, "DOC_SCAN_ERROR")
         }
