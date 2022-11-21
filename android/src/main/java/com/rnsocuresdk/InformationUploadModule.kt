@@ -25,8 +25,6 @@ class InformationUploadModule(private val context: ReactApplicationContext) : In
     Socure.getSuccessfulResult()?.let { documentResult ->
       val selfieResult = Socure.getSelfieResult()
       startUpload(uploader, documentResult, selfieResult)
-    } ?: run {
-      promise.reject(Throwable("Nothing to upload!"))
     }
   }
 /*
@@ -51,20 +49,34 @@ class InformationUploadModule(private val context: ReactApplicationContext) : In
     }
   }
 */
-  private fun buildImageUploader(): ImageUploader = ImageUploader(context)
+  private fun buildImageUploader(): ImageUploader {
+    val socureKey = context.getString(R.string.socurePublicKey)
+    val uploader = ImageUploader(context, socureKey)
+    uploader.imageUploader(context)
+    return uploader
+  }
 
   private fun startUpload(uploader: ImageUploader, docResult: ScanResult, selfieResult: SelfieScanResult?) {
     if (docResult.documentType == ScanResult.DocumentType.PASSPORT) {
-      docResult.passportImage?.let { 
-        uploader.uploadPassport(this, it, selfieResult?.imageData)
-      } ?: run {
-        promise?.reject(Throwable("Passport image can not be empty!"))
+      if (selfieResult?.imageData != null) {
+        uploader.uploadPassport(
+            this,
+            docResult.passportImage,
+            selfieResult.imageData
+        )
+      } else {
+        uploader.uploadPassport(this, docResult.passportImage)
       }
     } else {
-      docResult.licenseFrontImage?.let { 
-        uploader.uploadLicense(this, it, docResult.licenseBackImage, selfieResult?.imageData)
-      } ?: run {
-        promise?.reject(Throwable("ID Front image can not be empty!"))
+      if (selfieResult?.imageData != null) {
+        uploader.uploadLicense(
+            this,
+            docResult.licenseFrontImage,
+            docResult.licenseBackImage,
+            selfieResult.imageData
+        )
+      } else {
+        uploader.uploadLicense(this, docResult.licenseFrontImage, docResult.licenseBackImage)
       }
     }
   }

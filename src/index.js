@@ -20,13 +20,6 @@ const Socure = {
   getScannedPassport: () => {
     return RnSocureSdk.getScannedPassport();
   },
-  setSocureSdkKey: (publicKey) => {
-    if (publicKey && typeof publicKey === 'string' && publicKey.trim().length > 0){
-      RnSocureSdk.setSocureSdkKey(publicKey);
-    } else {
-      throw "Invalid public key."
-    }
-  }
 };
 
 export default Socure;

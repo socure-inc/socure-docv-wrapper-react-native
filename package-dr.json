@@ -1,6 +1,6 @@
 {
-  "name": "rn-socure-sdk",
-  "version": "0.1.0",
+  "name": "rn-socure-sdk-device-risk",
+  "version": "0.1.1",
   "description": "Access Socure scanners",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "rn-socure-sdk.podspec",
+    "rn-socure-sdk-device-risk.podspec",
     "!lib/typescript/example",
     "!**/__tests__",
     "!**/__fixtures__",
@@ -36,7 +36,7 @@
   ],
   "repository": "https://github.com/socure-inc/android-sdk",
   "author": "Socure <deepanker@socure.com> (https://github.com/socure-inc/android-sdk)",
-  "license": "MIT",
+  "license": "Private",
   "bugs": {
     "url": "https://github.com/socure-inc/android-sdk/issues"
   },
