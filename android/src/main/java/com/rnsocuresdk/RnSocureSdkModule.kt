@@ -50,6 +50,11 @@ class RnSocureSdkModule(reactContext: ReactApplicationContext) : ReactContextBas
     fun uploadScannedInfo(promise: Promise) {
         uploadDocument.upload(promise)
     }
+
+    @ReactMethod
+    fun setSocureSdkKey(publicKey: String) {
+        SDKAppDataPublic.setSocureSdkKey(publicKey)
+    }
 /*
     @ReactMethod
     fun uploadSelfie(selfiePath: String, documentType: Int, promise: Promise) {
