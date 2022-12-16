@@ -20,6 +20,7 @@
     "!**/__mocks__"
   ],
   "scripts": {
+    "prepare": "bob build",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods"
@@ -36,8 +37,19 @@
     "url": "https://github.com/socure-inc/android-sdk/issues"
   },
   "homepage": "https://github.com/socure-inc/android-sdk#readme",
+  "devDependencies": {
+    "@react-native-community/bob": "^0.16.2"
+  },
   "peerDependencies": {
     "react": ">=16.13.1",
     "react-native": ">=0.68.2"
+  },
+  "@react-native-community/bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module"
+    ]
   }
 }
