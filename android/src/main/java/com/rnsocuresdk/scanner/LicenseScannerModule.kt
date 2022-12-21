@@ -11,6 +11,9 @@ import com.facebook.react.bridge.WritableMap
 import com.socure.idplus.SDKAppDataPublic
 import com.socure.idplus.model.BarcodeData
 import com.socure.idplus.model.MrzData
+import com.socure.idplus.util.KEY_MESSAGE
+import com.socure.idplus.util.KEY_SESSION_ID
+import com.socure.idplus.util.KEY_SESSION_TOKEN
 
 import com.socure.idplus.scanner.license.LicenseScannerActivity
 import java.lang.Exception

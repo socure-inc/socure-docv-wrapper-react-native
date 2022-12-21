@@ -12,6 +12,9 @@ import com.socure.idplus.model.BarcodeData
 import com.socure.idplus.model.MrzData
 import com.socure.idplus.scanner.passport.PassportScannerActivity
 import java.lang.Exception
+import com.socure.idplus.util.KEY_MESSAGE
+import com.socure.idplus.util.KEY_SESSION_ID
+import com.socure.idplus.util.KEY_SESSION_TOKEN
 
 @ExperimentalStdlibApi
 class PassportScannerModule(private val context: ReactApplicationContext): ScannerModule(context) {

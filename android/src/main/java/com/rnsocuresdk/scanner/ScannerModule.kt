@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 const val SCAN_PASSPORT_CODE = 200
 const val SCAN_LICENSE_CODE = 300
 const val SCAN_SELFIE_CODE = 400
+const val GET_CONSENT_CODE = 500
 
 interface ScanModuleResult {
 

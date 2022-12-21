@@ -9,8 +9,9 @@ import com.facebook.react.bridge.WritableMap
 import com.rnsocuresdk.scanner.GET_CONSENT_CODE
 import com.rnsocuresdk.scanner.ScannerModule
 import com.socure.idplus.scanner.consent.ConsentActivity
-import com.socure.idplus.util.KEY_ERROR
+import com.socure.idplus.util.KEY_MESSAGE
 import com.socure.idplus.util.KEY_SESSION_ID
+import com.socure.idplus.util.KEY_SESSION_TOKEN
 
 class ConsentModule(private val context: ReactApplicationContext): ScannerModule(context) {
 
