@@ -13,7 +13,7 @@ const val SCAN_SELFIE_CODE = 400
 
 interface ScanModuleResult {
 
-  fun onSuccess(requestCode: Int)
+  fun onSuccess(requestCode: Int, data: Intent?)
   fun onError(requestCode: Int, message: String)
 }
 
@@ -59,7 +59,7 @@ abstract class ScannerModule(private val context: ReactApplicationContext): Base
             data?.getStringExtra("error")?.let {
               onError(requestCode, it)
             } ?: run {
-              onSuccess(requestCode)
+              onSuccess(requestCode, data)
             }
           }
           Activity.RESULT_CANCELED -> onError(requestCode, "DOC_SCAN_CANCELLED")

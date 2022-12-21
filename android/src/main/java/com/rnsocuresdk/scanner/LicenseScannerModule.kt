@@ -23,7 +23,8 @@ class LicenseScannerModule(private val context: ReactApplicationContext): Scanne
 
   override fun buildScannerIntent(): Intent = Intent(context, LicenseScannerActivity::class.java)
 
-  override fun onSuccess(requestCode: Int) {
+  override fun onSuccess(requestCode: Int, data: Intent?) {
+    Log.d("[SOCURE]", "onSuccess")
     val licenseResult = SDKAppDataPublic.successfulScanningResult
     val response: WritableMap = Arguments.createMap()
     val mapper = LicenseResultMapper()
@@ -41,6 +42,12 @@ class LicenseScannerModule(private val context: ReactApplicationContext): Scanne
     }
 
     response.putString("type", licenseResult?.documentType?.name ?: "UNKWON")
+
+    response.putString("message", data?.getStringExtra(KEY_MESSAGE))
+    response.putString("sessionId", data?.getStringExtra(KEY_SESSION_ID))
+    response.putString("sessionToken", data?.getStringExtra(KEY_SESSION_TOKEN))
+
+    Log.d("[SOCURE]", response.toString())
     promise?.resolve(response)
   }
 

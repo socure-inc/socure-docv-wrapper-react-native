@@ -21,7 +21,8 @@ class PassportScannerModule(private val context: ReactApplicationContext): Scann
 
   override fun buildScannerIntent(): Intent = Intent(context, PassportScannerActivity::class.java)
 
-  override fun onSuccess(requestCode: Int) {
+  override fun onSuccess(requestCode: Int, data: Intent?) {
+    Log.d("[SOCURE]", "onSuccess")
     val passportResult = SDKAppDataPublic.successfulScanningResult
     val response: WritableMap = Arguments.createMap()
     val mapper = PassportResultMapper()
@@ -40,6 +41,11 @@ class PassportScannerModule(private val context: ReactApplicationContext): Scann
 
     response.putString("type", passportResult?.documentType?.name ?: "UNKWON")
 
+    response.putString("message", data?.getStringExtra(KEY_MESSAGE))
+    response.putString("sessionId", data?.getStringExtra(KEY_SESSION_ID))
+    response.putString("sessionToken", data?.getStringExtra(KEY_SESSION_TOKEN))
+
+    Log.d("[SOCURE]", response.toString())
     promise?.resolve(response)
   }
 
