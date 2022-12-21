@@ -280,7 +280,8 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
             "frontImage": frontImageData.base64EncodedString(options: .lineLength64Characters),
             "backImage": backImageData.base64EncodedString(options: .lineLength64Characters),
             "type": "normal_license_image",
-            "session_id": licenseFrontResult?.sessionId ?? ""
+            "sessionId": licenseFrontResult?.sessionId ?? "",
+            "sessionToken": licenseFrontResult?.sessionToken ?? ""
         ])
     } else {
       reject("IMAGE_NOT_FOUND", "Error getting image data", nil)
@@ -301,7 +302,8 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
         resolve([
             "frontImage": passportData.base64EncodedString(options: .lineLength64Characters),
             "type": "normal_passport_image",
-            "session_id": passportResult?.sessionId ?? ""
+            "sessionId": licenseFrontResult?.sessionId ?? "",
+            "sessionToken": licenseFrontResult?.sessionToken ?? ""
         ])
     } else {
       reject("IMAGE_NOT_FOUND", "Error getting image data", nil)
@@ -472,7 +474,7 @@ extension RnSocureSdk:ImageCallback {
 
 extension RnSocureSdk: ConsentCallback {
     func consentResult(consentResult: SocureSdk.ConsentResult) {
-        let dict = ["session_id": consentResult.sessionId, "message": consentResult.message]
+        let dict: [String: String] = ["sessionId": consentResult.sessionId, "message": consentResult.message, "sessionToken": consentResult.sessionToken]
         consentResolve?(dict)
         consentReject = nil
         referenceViewController?.dismiss(animated: true, completion: nil)
