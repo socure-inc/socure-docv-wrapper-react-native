@@ -11,6 +11,9 @@ import com.facebook.react.bridge.WritableMap
 import com.socure.idplus.SDKAppDataPublic
 import com.socure.idplus.model.BarcodeData
 import com.socure.idplus.model.MrzData
+import com.socure.idplus.util.KEY_MESSAGE
+import com.socure.idplus.util.KEY_SESSION_ID
+import com.socure.idplus.util.KEY_SESSION_TOKEN
 
 import com.socure.idplus.scanner.license.LicenseScannerActivity
 import java.lang.Exception
@@ -23,7 +26,8 @@ class LicenseScannerModule(private val context: ReactApplicationContext): Scanne
 
   override fun buildScannerIntent(): Intent = Intent(context, LicenseScannerActivity::class.java)
 
-  override fun onSuccess(requestCode: Int) {
+  override fun onSuccess(requestCode: Int, data: Intent?) {
+    Log.d("[SOCURE]", "onSuccess")
     val licenseResult = SDKAppDataPublic.successfulScanningResult
     val response: WritableMap = Arguments.createMap()
     val mapper = LicenseResultMapper()
@@ -41,6 +45,12 @@ class LicenseScannerModule(private val context: ReactApplicationContext): Scanne
     }
 
     response.putString("type", licenseResult?.documentType?.name ?: "UNKWON")
+
+    response.putString("message", data?.getStringExtra(KEY_MESSAGE))
+    response.putString("sessionId", data?.getStringExtra(KEY_SESSION_ID))
+    response.putString("sessionToken", data?.getStringExtra(KEY_SESSION_TOKEN))
+
+    Log.d("[SOCURE]", response.toString())
     promise?.resolve(response)
   }
 
