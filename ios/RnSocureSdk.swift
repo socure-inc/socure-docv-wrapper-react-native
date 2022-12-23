@@ -58,6 +58,9 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
   var referenceViewController: UIViewController?
     
   var scanInfoResult: [String:Any] = [:]
+
+    let keySessionId = "sessionId"
+    let keySessionToken = "sessionToken"
     
     static func moduleName() -> String! {
         return "RnSocureSdk"
@@ -280,8 +283,8 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
             "frontImage": frontImageData.base64EncodedString(options: .lineLength64Characters),
             "backImage": backImageData.base64EncodedString(options: .lineLength64Characters),
             "type": "normal_license_image",
-            "sessionId": licenseFrontResult?.sessionId ?? "",
-            "sessionToken": licenseFrontResult?.sessionToken ?? ""
+            keySessionId: licenseFrontResult?.sessionId ?? "",
+            keySessionToken: licenseFrontResult?.sessionToken ?? ""
         ])
     } else {
       reject("IMAGE_NOT_FOUND", "Error getting image data", nil)
@@ -302,8 +305,8 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
         resolve([
             "frontImage": passportData.base64EncodedString(options: .lineLength64Characters),
             "type": "normal_passport_image",
-            "sessionId": licenseFrontResult?.sessionId ?? "",
-            "sessionToken": licenseFrontResult?.sessionToken ?? ""
+            keySessionId: licenseFrontResult?.sessionId ?? "",
+            keySessionToken: licenseFrontResult?.sessionToken ?? ""
         ])
     } else {
       reject("IMAGE_NOT_FOUND", "Error getting image data", nil)
@@ -474,7 +477,7 @@ extension RnSocureSdk:ImageCallback {
 
 extension RnSocureSdk: ConsentCallback {
     func consentResult(consentResult: SocureSdk.ConsentResult) {
-        let dict: [String: String] = ["sessionId": consentResult.sessionId, "message": consentResult.message, "sessionToken": consentResult.sessionToken]
+        let dict: [String: String] = [keySessionId: consentResult.sessionId, "message": consentResult.message, keySessionToken: consentResult.sessionToken]
         consentResolve?(dict)
         consentReject = nil
         referenceViewController?.dismiss(animated: true, completion: nil)
