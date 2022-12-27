@@ -12,7 +12,6 @@ import com.socure.idplus.model.BarcodeData
 import com.socure.idplus.model.MrzData
 import com.socure.idplus.scanner.passport.PassportScannerActivity
 import java.lang.Exception
-import com.socure.idplus.util.KEY_MESSAGE
 import com.socure.idplus.util.KEY_SESSION_ID
 import com.socure.idplus.util.KEY_SESSION_TOKEN
 
@@ -44,7 +43,6 @@ class PassportScannerModule(private val context: ReactApplicationContext): Scann
 
     response.putString("type", passportResult?.documentType?.name ?: "UNKWON")
 
-    response.putString("message", data?.getStringExtra(KEY_MESSAGE))
     response.putString("sessionId", data?.getStringExtra(KEY_SESSION_ID))
     response.putString("sessionToken", data?.getStringExtra(KEY_SESSION_TOKEN))
 
