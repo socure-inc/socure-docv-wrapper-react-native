@@ -1,6 +1,6 @@
 # Predictive DocV SDK v2 for React Native
 
-# Version: 2.2.0 - Release Date : Dec 2022
+# Version: 2.3.0 - Release Date : Dec 2022
 
 The Predictive Document Verification (DocV) SDK v2 for React Native is a React Native bridge that allows you to use the DocV SDK for Android and iOS in your React Native application. This guide covers the integration within React, as well as React Native implementation on iOS and Android.
 
