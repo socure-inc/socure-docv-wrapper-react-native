@@ -9,7 +9,6 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.WritableMap
 import com.socure.idplus.SDKAppDataPublic
 import com.socure.idplus.scanner.selfie.SelfieActivity
-import com.socure.idplus.util.KEY_MESSAGE
 import com.socure.idplus.util.KEY_SESSION_ID
 import com.socure.idplus.util.KEY_SESSION_TOKEN
 
@@ -28,7 +27,6 @@ class SelfieScannerModule(private val context: ReactApplicationContext): Scanner
     selfieResponse.putString("type", "SELFIE")
     selfieResponse.putString("image", Base64.encodeToString(selfieResult?.imageData, Base64.DEFAULT)  ?: "")
 
-    selfieResponse.putString("message", data?.getStringExtra(KEY_MESSAGE))
     selfieResponse.putString("sessionId", data?.getStringExtra(KEY_SESSION_ID))
     selfieResponse.putString("sessionToken", data?.getStringExtra(KEY_SESSION_TOKEN))
 

@@ -11,7 +11,6 @@ import com.facebook.react.bridge.WritableMap
 import com.socure.idplus.SDKAppDataPublic
 import com.socure.idplus.model.BarcodeData
 import com.socure.idplus.model.MrzData
-import com.socure.idplus.util.KEY_MESSAGE
 import com.socure.idplus.util.KEY_SESSION_ID
 import com.socure.idplus.util.KEY_SESSION_TOKEN
 
@@ -46,7 +45,6 @@ class LicenseScannerModule(private val context: ReactApplicationContext): Scanne
 
     response.putString("type", licenseResult?.documentType?.name ?: "UNKWON")
 
-    response.putString("message", data?.getStringExtra(KEY_MESSAGE))
     response.putString("sessionId", data?.getStringExtra(KEY_SESSION_ID))
     response.putString("sessionToken", data?.getStringExtra(KEY_SESSION_TOKEN))
 
