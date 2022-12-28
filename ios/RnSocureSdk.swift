@@ -480,6 +480,13 @@ extension RnSocureSdk: ConsentCallback {
         let dict: [String: String] = [keySessionId: consentResult.sessionId, "message": consentResult.message, keySessionToken: consentResult.sessionToken]
         consentResolve?(dict)
         consentReject = nil
+        if consentResult.message.lowercased() == "consent already given" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [ refVC = self.referenceViewController] in
+                refVC?.dismiss(animated: true)
+            })
+            self.referenceViewController = nil
+            return
+        }
         referenceViewController?.dismiss(animated: true, completion: nil)
     }
 }
