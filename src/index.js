@@ -11,6 +11,9 @@ const Socure = {
   captureSelfie: () => {
     return RnSocureSdk.captureSelfie();
   },
+  showConsent: () => {
+    return RnSocureSdk.showConsent();
+  },
   uploadScannedInfo: () => {
     return RnSocureSdk.uploadScannedInfo();
   },

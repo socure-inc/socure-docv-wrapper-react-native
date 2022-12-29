@@ -50,12 +50,17 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
   
   var docScanResolve: RCTPromiseResolveBlock?
   var docScanReject: RCTPromiseRejectBlock?
+  var consentResolve: RCTPromiseResolveBlock?
+  var consentReject: RCTPromiseRejectBlock?
   
   var usingPassport:Bool = false
   var scanType:DocumentType = .license
   var referenceViewController: UIViewController?
     
   var scanInfoResult: [String:Any] = [:]
+
+    let keySessionId = "sessionId"
+    let keySessionToken = "sessionToken"
     
     static func moduleName() -> String! {
         return "RnSocureSdk"
@@ -120,7 +125,22 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
 
     self.scanDocument(type: .passport, resolve: resolve, reject: reject)
   }
-  
+    
+    @objc(showConsent:rejecter:)
+    func showConsent(
+      _ resolve: @escaping RCTPromiseResolveBlock,
+      rejecter reject: @escaping RCTPromiseRejectBlock
+    ) {
+        self.consentResolve = resolve
+        self.consentReject = reject
+        DispatchQueue.main.async {
+            let vc = ConsentHelperViewController(ConsentCallback: self)
+            vc.modalPresentationStyle = .fullScreen
+            self.referenceViewController = vc
+            let root = RCTPresentedViewController()
+            root?.present(vc, animated: true, completion: nil)
+        }
+    }
     
   func scanDocument(
     type: DocumentType,
@@ -262,7 +282,9 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
         resolve([
             "frontImage": frontImageData.base64EncodedString(options: .lineLength64Characters),
             "backImage": backImageData.base64EncodedString(options: .lineLength64Characters),
-            "type": "normal_license_image"
+            "type": "normal_license_image",
+            keySessionId: licenseFrontResult?.sessionId ?? "",
+            keySessionToken: licenseFrontResult?.sessionToken ?? ""
         ])
     } else {
       reject("IMAGE_NOT_FOUND", "Error getting image data", nil)
@@ -282,7 +304,9 @@ class RnSocureSdk: NSObject, RCTBridgeModule {
     if let passportData = self.dataFromUrl(url: passportUrl) {
         resolve([
             "frontImage": passportData.base64EncodedString(options: .lineLength64Characters),
-            "type": "normal_passport_image"
+            "type": "normal_passport_image",
+            keySessionId: licenseFrontResult?.sessionId ?? "",
+            keySessionToken: licenseFrontResult?.sessionToken ?? ""
         ])
     } else {
       reject("IMAGE_NOT_FOUND", "Error getting image data", nil)
@@ -394,10 +418,13 @@ extension RnSocureSdk:ImageCallback {
         self.referenceViewController = nil
         self.docScanReject?("DOC_SCAN_CANCELLED", "DOC_SCAN_CANCELLED", nil)
         self.selfieCaptureReject?("SELFIE_SCAN_CANCELLED", "SELFIE_SCAN_CANCELLED", nil)
+        self.consentReject?("CONSENT_CANCELLED", "CONSENT_CANCELLED", nil)
         self.docScanReject = nil
         self.docScanResolve = nil
         self.selfieCaptureReject = nil
         self.selfieCaptureResolve = nil
+        self.consentResolve = nil
+        self.consentReject = nil
     })
   }
   
@@ -443,6 +470,23 @@ extension RnSocureSdk:ImageCallback {
   func onError(errorType: SocureSDKErrorType, errorMessage: String) {
     self.docScanReject?("DOC_SCAN_ERROR", errorMessage, nil)
     self.selfieCaptureReject?("SELFIE_SCAN_ERROR", errorMessage, nil)
+    self.consentReject?("CONSENT_ERROR", errorMessage, nil)
     self.referenceViewController?.dismiss(animated: true, completion: nil)
   }
+}
+
+extension RnSocureSdk: ConsentCallback {
+    func consentResult(consentResult: SocureSdk.ConsentResult) {
+        let dict: [String: String] = [keySessionId: consentResult.sessionId, "message": consentResult.message, keySessionToken: consentResult.sessionToken]
+        consentResolve?(dict)
+        consentReject = nil
+        if consentResult.message.lowercased() == "consent already given" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [ refVC = self.referenceViewController] in
+                refVC?.dismiss(animated: true)
+            })
+            self.referenceViewController = nil
+            return
+        }
+        referenceViewController?.dismiss(animated: true, completion: nil)
+    }
 }

@@ -5,6 +5,7 @@
 RCT_EXTERN_METHOD(captureSelfie: (RCTPromiseResolveBlock *)resolve rejecter: (RCTPromiseRejectBlock *)reject)
 RCT_EXTERN_METHOD(scanLicense: (RCTPromiseResolveBlock *)resolve rejecter: (RCTPromiseRejectBlock *)reject)
 RCT_EXTERN_METHOD(scanPassport: (RCTPromiseResolveBlock *)resolve rejecter: (RCTPromiseRejectBlock *)reject)
+RCT_EXTERN_METHOD(showConsent: (RCTPromiseResolveBlock *)resolve rejecter: (RCTPromiseRejectBlock *)reject)
 RCT_EXTERN_METHOD(
                   uploadLicenseAndSelfie: (NSString)selfieUrl
                   front: (NSString)front
