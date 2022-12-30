@@ -8,7 +8,6 @@ import com.rnsocuresdk.scanner.LicenseScannerModule
 import com.rnsocuresdk.scanner.PassportScannerModule
 import com.rnsocuresdk.scanner.SelfieScannerModule
 import com.socure.idplus.SDKAppDataPublic
-import com.socure.idplus.util.Constants
 
 @ExperimentalStdlibApi
 class RnSocureSdkModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -16,6 +15,7 @@ class RnSocureSdkModule(reactContext: ReactApplicationContext) : ReactContextBas
     private val passportModule: PassportScannerModule = PassportScannerModule(reactContext)
     private val selfieModule: SelfieScannerModule = SelfieScannerModule(reactContext)
     private val uploadDocument: InformationUploadModule = InformationUploadModule(reactContext)
+    private val consentModule: ConsentModule = ConsentModule(reactContext)
 
     override fun getName(): String {
         return "RnSocureSdk"
@@ -55,6 +55,12 @@ class RnSocureSdkModule(reactContext: ReactApplicationContext) : ReactContextBas
     fun setSocureSdkKey(publicKey: String) {
         SDKAppDataPublic.setSocureSdkKey(publicKey)
     }
+
+    @ReactMethod
+    fun showConsent(promise: Promise) {
+        consentModule.startScanner(promise, currentActivity)
+    }
+
 /*
     @ReactMethod
     fun uploadSelfie(selfiePath: String, documentType: Int, promise: Promise) {
